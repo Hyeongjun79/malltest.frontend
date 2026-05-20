@@ -10,22 +10,25 @@ const getNum = (param, defaultValue) => {
 
 const useCustomMove = () => {
   const navigate = useNavigate()
-
   const [refresh, setRefresh] = useState(false)
-
   const [quertParams] = useSearchParams()
 
   const page = getNum(quertParams.get('page'), 1)
   const size = getNum(quertParams.get('size'), 8)
+  const category = quertParams.get('category') ? parseInt(quertParams.get('category')) : null
 
-  const queryDefault = createSearchParams({ page, size }).toString()
+  const queryDefault = createSearchParams(
+    category ? { page, size, category } : { page, size }
+  ).toString()
 
   const moveToList = (pageParam) => {
     let queryStr = ''
     if (pageParam) {
       const pageNum = getNum(pageParam.page, 1)
       const sizeNum = getNum(pageParam.size, 8)
-      queryStr = createSearchParams({ page: pageNum, size: sizeNum }).toString()
+      const params = { page: pageNum, size: sizeNum }
+      if (pageParam.category) params.category = pageParam.category
+      queryStr = createSearchParams(params).toString()
     } else {
       queryStr = queryDefault
     }
@@ -46,6 +49,6 @@ const useCustomMove = () => {
       search: queryDefault,
     })
   }
-  return { moveToList, moveToModify, moveToRead, page, size, refresh }
+  return { moveToList, moveToModify, moveToRead, page, size, refresh, category }
 }
 export default useCustomMove

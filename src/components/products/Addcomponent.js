@@ -1,14 +1,15 @@
 import { useRef, useState } from 'react'
 import ResultModal from '../common/ResultModal'
 import useCustomMove from '../../hooks/useCustomMove'
-import { postAdd } from '../../api/productsApi'
+import { postAdd, getCategoryList } from '../../api/productsApi'
 import FetchingModal from '../common/FetchingModal'
-import { useQueryClient, useMutation } from '@tanstack/react-query'
+import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 
 const initState = {
   pname: '',
   pdesc: '',
   price: 0,
+  categoryId: '',
   files: [],
 }
 
@@ -18,6 +19,13 @@ const AddComponent = () => {
   const { moveToList } = useCustomMove()
   const uploadRef = useRef()
   const queryClient = useQueryClient()
+
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategoryList,
+    staleTime: 1000 * 60 * 10,
+    retry: false,
+  })
 
   const handleChangeProduct = (e) => {
     product[e.target.name] = e.target.value
@@ -37,6 +45,7 @@ const AddComponent = () => {
     formData.append('pname', product.pname)
     formData.append('pdesc', product.pdesc)
     formData.append('price', product.price)
+    if (product.categoryId) formData.append('categoryId', product.categoryId)
 
     addMutation.mutate(formData)
   }
@@ -103,6 +112,21 @@ const AddComponent = () => {
           onChange={handleChangeProduct}
           onWheel={(e) => e.target.blur()}
         />
+      </FormRow>
+      <FormRow label="Category">
+        <select
+          className="ibm-input"
+          name="categoryId"
+          value={product.categoryId}
+          onChange={handleChangeProduct}
+        >
+          <option value="">カテゴリを選択</option>
+          {categories?.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
       </FormRow>
       <FormRow label="IMAGE">
         <div className="flex flex-wrap gap-3">

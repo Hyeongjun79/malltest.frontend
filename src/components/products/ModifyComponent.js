@@ -4,6 +4,8 @@ import useCustomMove from '../../hooks/useCustomMove'
 import ResultModal from '../common/ResultModal'
 import FetchingModal from '../common/FetchingModal'
 import { API_SERVER_HOST } from '../../api/todoApi'
+import { useQueryClient, useQuery } from '@tanstack/react-query'
+import { getCategoryList } from '../../api/productsApi'
 
 const host = API_SERVER_HOST
 
@@ -23,6 +25,14 @@ const ModifyComponent = ({ pno }) => {
   const [newFiles, setNewFiles] = useState([])
   const uploadRef = useRef()
   const { moveToList, moveToRead } = useCustomMove()
+  const queryClient = useQueryClient()
+
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategoryList,
+    staleTime: 1000 * 60 * 10,
+    retry: false,
+  })
 
   useEffect(() => {
     setFetching(true)
@@ -36,6 +46,7 @@ const ModifyComponent = ({ pno }) => {
     formData.append('pdesc', product.pdesc)
     formData.append('price', product.price)
     formData.append('delFlag', product.delFlag)
+    if (product.categoryId) formData.append('categoryId', product.categoryId)
     for (let i = 0; i < product.uploadFileNames.length; i++) {
       formData.append('uploadFileNames', product.uploadFileNames[i])
     }
@@ -66,6 +77,7 @@ const ModifyComponent = ({ pno }) => {
   const handleClickDelete = () => {
     setFetching(true)
     deleteOne(pno).then((data) => {
+      queryClient.invalidateQueries({ queryKey: ['products/list'] })
       setResult('Deleted')
       setFetching(false)
     })
@@ -126,6 +138,21 @@ const ModifyComponent = ({ pno }) => {
           value={product.price}
           onChange={handleChangeProduct}
         />
+      </FormRow>
+      <FormRow label="Category">
+        <select
+          className="ibm-input"
+          name="categoryId"
+          value={product.categoryId || ''}
+          onChange={handleChangeProduct}
+        >
+          <option value="">カテゴリを選択</option>
+          {categories?.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
       </FormRow>
       <FormRow label="DELETE">
         <select

@@ -3,10 +3,20 @@ import { useSelector, useDispatch } from 'react-redux'
 import { openLoginModal, openLogoutModal } from '../../slices/loginSlice'
 import LoginComponent from '../member/LoginComponent'
 import LogoutComponent from '../member/LogoutComponent'
+import { useQuery } from '@tanstack/react-query'
+import { getCategoryList } from '../../api/productsApi'
 
 const BasicMenu = () => {
   const loginState = useSelector((state) => state.loginSlice)
   const dispatch = useDispatch()
+
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategoryList,
+    staleTime: 1000 * 60 * 10,
+    enabled: !!loginState.email,
+    retry: false,
+  })
 
   return (
     <>
@@ -60,13 +70,23 @@ const BasicMenu = () => {
                         Todo
                       </Link>
                     </li>
-                    <li className="h-full">
-                      <Link
-                        to={'/products/'}
-                        className="flex items-center h-full px-4 ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1"
-                      >
+                    <li className="relative h-full group">
+                      <Link to={'/products/list?category=1'} className="flex items-center h-full px-4 ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1">
                         Products
                       </Link>
+                      <div className="absolute left-0 z-50 invisible w-48 transition-opacity duration-150 opacity-0 top-full group-hover:visible group-hover:opacity-100">
+                        <div className="border border-t-0 shadow-md bg-ibm-canvas border-ibm-hairline">
+                          {categories?.map((cat) => (
+                            <Link
+                              key={cat.id}
+                              to={`/products/list?category=${cat.id}`}
+                              className="block px-4 py-3 border-b ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1 border-ibm-hairline last:border-b-0"
+                            >
+                              {cat.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
                     </li>
                   </>
                 ) : (
