@@ -5,13 +5,11 @@ const MainPage = () => {
   return (
     <BasicLayout>
       <div className="pt-16">
-        <span className="block mb-3 ibm-e-14">Welcome</span>
         <h1 className="max-w-4xl ibm-dxl-76 text-ibm-ink">
-          IBM Cloud Native Dev base AI agent 4
+          あなたの夢をアミアミ~作りましょう！
         </h1>
         <p className="max-w-2xl mt-8 ibm-blg-18 text-ibm-ink-muted">
-          A faithful application of Carbon Design System — flat geometry,
-          light-weight type, and a single confident accent.
+          編み物が好きな方ならどなたでも歓迎です！
         </p>
 
         <div className="flex gap-4 mt-10">
