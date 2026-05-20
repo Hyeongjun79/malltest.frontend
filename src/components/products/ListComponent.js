@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
 import { getList } from '../../api/productsApi'
 import useCustomMove from '../../hooks/useCustomMove'
 import FetchingModal from '../common/FetchingModal'
 import { API_SERVER_HOST } from '../../api/todoApi'
 import PageComponent from '../common/PageComponent'
 import useCustomLogin from '../../hooks/useCustomLogin'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 const host = API_SERVER_HOST
 const initState = {
@@ -22,12 +21,13 @@ const initState = {
 }
 
 const ListComponent = () => {
-  const { page, size, refresh, moveToList, moveToRead } = useCustomMove()
-  const { exceptionHandle, moveToLoginReturn } = useCustomLogin()
-  const [fetching, setFetching] = useState(false)
-  const { isFetching, data, error, isError } = useQuery({
-    queryKey: ['products/list', { page, size, refresh }],
-    queryFn: () => getList({ page, size }),
+  const { page, size, refresh, category: categoryParam, moveToList, moveToRead } = useCustomMove()
+  const category = categoryParam ?? 1
+  const { exceptionHandle } = useCustomLogin()
+
+  const { isLoading, data, error, isError } = useQuery({
+    queryKey: ['products/list', { page, size, refresh, category }],
+    queryFn: () => getList({ page, size, category }),
     staleTime: 1000 * 60,
   })
 
@@ -35,15 +35,15 @@ const ListComponent = () => {
     moveToList(pageParam)
   }
   if (isError) {
-    console.log(error)
-    return moveToLoginReturn()
+    exceptionHandle(error)
+    return <></>
   }
 
   const serverData = data || initState
 
   return (
     <div className="mt-8">
-      {isFetching ? <FetchingModal /> : <></>}
+      {isLoading ? <FetchingModal /> : <></>}
       <div className="grid grid-cols-1 gap-px border md:grid-cols-2 xl:grid-cols-4 bg-ibm-hairline border-ibm-hairline">
         {serverData.dtoList.map((product) => (
           <div
@@ -51,7 +51,6 @@ const ListComponent = () => {
             className="p-6 transition-colors cursor-pointer bg-ibm-canvas hover:bg-ibm-surface-1"
             onClick={() => moveToRead(product.pno)}
           >
-            <div className="mb-2 ibm-e-14">No. {product.pno}</div>
             <div className="w-full overflow-hidden">
               <img
                 alt="product"
@@ -59,11 +58,11 @@ const ListComponent = () => {
                 src={`${host}/api/products/view/s_${product.uploadFileNames[0]}`}
               />
             </div>
-            <div className="mb-6 font-light ibm-ct-24 text-ibm-ink">
+            <div className="mt-6 mb-6 font-light ibm-ct-24 text-ibm-ink ">
               {product.pname}
             </div>
             <div className="pt-4 border-t ibm-bsm-14 text-ibm-ink-muted border-ibm-hairline">
-              가격: {product.price}
+              {product.price} 円
             </div>
           </div>
         ))}

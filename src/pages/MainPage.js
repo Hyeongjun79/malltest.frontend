@@ -35,7 +35,7 @@ const MainPage = () => {
             <div className="mb-3 ibm-e-14 text-ibm-ink-muted">02</div>
             <h3 className="font-light ibm-ct-24 text-ibm-ink">Sample</h3>
             <p className="mt-3 ibm-bsm-14 text-ibm-ink-muted">
-              IBM Plex Sans at weight 300 is the brand voice.
+              IBM Plex Sans at weight 300 is the brand voice.p
             </p>
           </div>
           <div className="p-8 bg-ibm-canvas">

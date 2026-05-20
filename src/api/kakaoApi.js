@@ -5,7 +5,6 @@ const rest_api_key = process.env.REACT_APP_KAKAO_CLIENT_ID
 const redirect_uri = process.env.REACT_APP_KAKAO_REDIRECT_URI
 const client_secret_key = process.env.REACT_APP_KAKAO_CLIENT_SECRET
 const auth_code_path = `https://kauth.kakao.com/oauth/authorize`
-
 const access_token_url = `https://kauth.kakao.com/oauth/token`
 
 export const getKakaoLoginLink = () => {

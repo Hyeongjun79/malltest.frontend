@@ -11,12 +11,17 @@ export const postAdd = async (product) => {
   return res.data
 }
 
-export const getList = async (pageParam) => {
-  const { page, size } = pageParam
+export const getCategoryList = async () => {
+  const res = await jwtAxios.get(`${API_SERVER_HOST}/api/categories`)
+  return res.data
+}
 
-  const res = await jwtAxios.get(`${host}/list`, {
-    params: { page: page, size: size },
-  })
+export const getList = async (pageParam) => {
+  const { page, size, category } = pageParam
+  const params = { page, size }
+  if (category) params.category = category
+
+  const res = await jwtAxios.get(`${host}/list`, { params })
   return res.data
 }
 

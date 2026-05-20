@@ -57,8 +57,6 @@ const ReadComponent = ({ pno }) => {
         ))}
       </div>
 
-      {makeRow('Pno', product.pno)}
-      {makeRow('Desc', product.pdesc)}
       {makeRow('Name', product.pname)}
       {makeRow('Price', product.price)}
 

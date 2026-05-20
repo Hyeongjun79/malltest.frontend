@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//f/IBM4/AKI/backend/**)",
+      "Bash(tasklist /fi \"PID eq 44588\")",
+      "PowerShell(Get-Process -Id 44588)"
+    ],
+    "additionalDirectories": [
+      "F:\\IBM4\\AKI\\backend\\mallapi\\src\\main\\java\\com\\mysite\\mallapi\\service"
+    ]
+  }
+}
