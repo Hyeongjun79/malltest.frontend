@@ -35,65 +35,60 @@ const BasicMenu = () => {
           id="navbar"
           className="w-full border-b bg-ibm-canvas border-ibm-hairline"
         >
-          <div className="flex items-center justify-between max-w-[1584px] mx-auto h-12 px-4">
+          <div className="relative flex items-center justify-between max-w-[1584px] mx-auto h-12 px-4">
             <div className="flex items-center h-full">
               <Link
                 to={'/'}
                 className="ibm-be-14 text-ibm-ink pr-8 tracking-[0.2px]"
               >
-                IBM Mall
+                アミゴ
               </Link>
-              <ul className="flex items-center h-full">
-                <li className="h-full">
-                  <Link
-                    to={'/'}
-                    className="flex items-center h-full px-4 ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1"
-                  >
-                    Main
-                  </Link>
-                </li>
-                <li className="h-full">
-                  <Link
-                    to={'/about'}
-                    className="flex items-center h-full px-4 ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1"
-                  >
-                    About
-                  </Link>
-                </li>
-                {loginState.email ? (
-                  <>
-                    <li className="h-full">
-                      <Link
-                        to={'/todo/'}
-                        className="flex items-center h-full px-4 ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1"
-                      >
-                        Todo
-                      </Link>
-                    </li>
-                    <li className="relative h-full group">
-                      <Link to={'/products/list?category=1'} className="flex items-center h-full px-4 ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1">
-                        Products
-                      </Link>
-                      <div className="absolute left-0 z-50 invisible w-48 transition-opacity duration-150 opacity-0 top-full group-hover:visible group-hover:opacity-100">
-                        <div className="border border-t-0 shadow-md bg-ibm-canvas border-ibm-hairline">
-                          {categories?.map((cat) => (
-                            <Link
-                              key={cat.id}
-                              to={`/products/list?category=${cat.id}`}
-                              className="block px-4 py-3 border-b ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1 border-ibm-hairline last:border-b-0"
-                            >
-                              {cat.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </li>
-                  </>
-                ) : (
-                  <></>
-                )}
-              </ul>
             </div>
+            <ul className="absolute flex items-center h-full -translate-x-1/2 left-1/2">
+              <li className="h-full">
+                <Link
+                  to={'/about'}
+                  className="flex items-center h-full px-4 ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1"
+                >
+                  About
+                </Link>
+              </li>
+              {loginState.email ? (
+                <>
+                  <li className="h-full">
+                    <Link
+                      to={'/todo/'}
+                      className="flex items-center h-full px-4 ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1"
+                    >
+                      Todo
+                    </Link>
+                  </li>
+                  <li className="relative h-full group">
+                    <Link
+                      to={'/products/list?category=1'}
+                      className="flex items-center h-full px-4 ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1"
+                    >
+                      Products
+                    </Link>
+                    <div className="absolute left-0 z-50 invisible w-48 transition-opacity duration-150 opacity-0 top-full group-hover:visible group-hover:opacity-100">
+                      <div className="border border-t-0 shadow-md bg-ibm-canvas border-ibm-hairline">
+                        {categories?.map((cat) => (
+                          <Link
+                            key={cat.id}
+                            to={`/products/list?category=${cat.id}`}
+                            className="block px-4 py-3 border-b ibm-bsm-14 text-ibm-ink hover:bg-ibm-surface-1 border-ibm-hairline last:border-b-0"
+                          >
+                            {cat.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </li>
+                </>
+              ) : (
+                <></>
+              )}
+            </ul>
 
             <div className="flex items-center h-full">
               {!loginState.email ? (
