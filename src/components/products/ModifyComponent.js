@@ -105,23 +105,23 @@ const ModifyComponent = ({ pno }) => {
   }
 
   return (
-    <div className="mt-8 border border-ibm-hairline bg-ibm-canvas">
+    <div className="mt-6 bg-white rounded-2xl border border-ibm-hairline shadow-sm overflow-hidden">
       {fetching ? <FetchingModal /> : <></>}
 
       {result ? (
         <ResultModal
-          title={`${result}`}
-          content={'정상적으로 처리되었습니다.'}
+          title={result === 'Deleted' ? '商品削除' : '商品編集'}
+          content={'正常に処理されました。'}
           callbackFn={colseModal}
-        ></ResultModal>
+        />
       ) : (
         <></>
       )}
 
-      <FormRow label="PNO">
+      <FormRow label="商品番号">
         <div className="ibm-b-16 text-ibm-ink-muted">{product.pno}</div>
       </FormRow>
-      <FormRow label="PNAME">
+      <FormRow label="商品名">
         <input
           className="ibm-input"
           name="pname"
@@ -130,7 +130,7 @@ const ModifyComponent = ({ pno }) => {
           onChange={handleChangeProduct}
         />
       </FormRow>
-      <FormRow label="PRICE">
+      <FormRow label="価格">
         <input
           className="ibm-input"
           name="price"
@@ -154,31 +154,31 @@ const ModifyComponent = ({ pno }) => {
           ))}
         </select>
       </FormRow>
-      <FormRow label="DELETE">
+      <FormRow label="表示状態">
         <select
           name="delFlag"
-          className="w-1/5 p-4 border border-solid shadow-md ibm-rounded-md bg-ibm-hairline"
+          className="ibm-input w-auto"
           onChange={handleChangeProduct}
           value={product.delFlag}
         >
-          <option value={false}>사용</option>
-          <option value={true}>삭제</option>
+          <option value={false}>公開中</option>
+          <option value={true}>非公開</option>
         </select>
       </FormRow>
-      <FormRow label="IMAGE">
+      <FormRow label="画像">
         <div className="flex flex-wrap gap-3">
           {product.uploadFileNames.map((imgFile) => (
             <div
               key={imgFile}
               className="flex flex-col w-[calc(33.333%-0.5rem)] gap-2"
             >
-              <img alt="img" src={`${host}/api/products/view/s_${imgFile}`} />
+              <img alt="img" src={`${host}/api/products/view/s_${imgFile}`} className="rounded-xl" />
               <button
                 type="button"
-                className="py-2 text-white ibm-bsm-14 bg-ibm-blue hover:bg-ibm-blue-hover"
+                className="ibm-btn ibm-btn-danger py-1 text-sm"
                 onClick={() => deleteOldImages(imgFile)}
               >
-                DELETE
+                削除
               </button>
             </div>
           ))}
@@ -187,23 +187,23 @@ const ModifyComponent = ({ pno }) => {
               key={`new-${i}`}
               className="flex flex-col w-[calc(33.333%-0.5rem)] gap-2"
             >
-              <img alt="new" src={entry.preview} />
+              <img alt="new" src={entry.preview} className="rounded-xl" />
               <button
                 type="button"
-                className="py-2 text-white ibm-bsm-14 bg-ibm-blue hover:bg-ibm-blue-hover"
+                className="ibm-btn ibm-btn-danger py-1 text-sm"
                 onClick={() => removeNewFile(i)}
               >
-                DELETE
+                削除
               </button>
             </div>
           ))}
           <button
             type="button"
             onClick={triggerFileInput}
-            className="flex flex-col items-center justify-center w-[calc(33.333%-0.5rem)] min-h-[140px] border-2 border-dashed text-ibm-ink-muted hover:bg-ibm-surface-1 border-ibm-ink-subtle"
+            className="flex flex-col items-center justify-center w-[calc(33.333%-0.5rem)] min-h-[140px] border-2 border-dashed rounded-xl text-ibm-ink-muted hover:bg-ibm-surface-4 border-ibm-hairline transition-colors"
           >
-            <span className="leading-none ibm-h-32">+</span>
-            <span className="mt-2 ibm-bsm-14">이미지 추가</span>
+            <span className="text-3xl mb-2">+</span>
+            <span className="ibm-bsm-14">画像を追加</span>
           </button>
           <input
             ref={uploadRef}
@@ -216,27 +216,27 @@ const ModifyComponent = ({ pno }) => {
         </div>
       </FormRow>
 
-      <div className="flex justify-end gap-px p-6 border-t bg-ibm-hairline border-ibm-hairline">
+      <div className="flex flex-wrap justify-end gap-3 p-6 bg-ibm-surface-4 border-t border-ibm-hairline">
         <button
           type="button"
-          className="ibm-btn ibm-btn-danger min-w-[160px]"
+          className="ibm-btn ibm-btn-danger min-w-[120px]"
           onClick={handleClickDelete}
         >
-          Delete
+          削除
         </button>
         <button
           type="button"
-          className="ibm-btn ibm-btn-primary min-w-[160px]"
-          onClick={handleClickModify}
-        >
-          Modify
-        </button>
-        <button
-          type="button"
-          className="ibm-btn ibm-btn-primary min-w-[160px]"
+          className="ibm-btn ibm-btn-secondary min-w-[120px]"
           onClick={moveToList}
         >
-          List
+          一覧へ
+        </button>
+        <button
+          type="button"
+          className="ibm-btn ibm-btn-primary min-w-[120px]"
+          onClick={handleClickModify}
+        >
+          変更する
         </button>
       </div>
     </div>
@@ -245,7 +245,7 @@ const ModifyComponent = ({ pno }) => {
 
 const FormRow = ({ label, children }) => (
   <div className="flex border-b border-ibm-hairline">
-    <div className="w-1/4 px-6 py-5 border-r ibm-e-14 text-ibm-ink-muted bg-ibm-surface-1 border-ibm-hairline">
+    <div className="w-1/4 px-6 py-4 ibm-e-14 text-ibm-ink-muted bg-ibm-surface-4">
       {label}
     </div>
     <div className="w-3/4 px-6 py-4 ibm-b-16 text-ibm-ink">{children}</div>

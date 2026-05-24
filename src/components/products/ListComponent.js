@@ -34,6 +34,7 @@ const ListComponent = () => {
   const handleClickPage = (pageParam) => {
     moveToList(pageParam)
   }
+
   if (isError) {
     exceptionHandle(error)
     return <></>
@@ -42,27 +43,27 @@ const ListComponent = () => {
   const serverData = data || initState
 
   return (
-    <div className="mt-8">
+    <div className="mt-6">
       {isLoading ? <FetchingModal /> : <></>}
-      <div className="grid grid-cols-1 gap-px border md:grid-cols-2 xl:grid-cols-4 bg-ibm-hairline border-ibm-hairline">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
         {serverData.dtoList.map((product) => (
           <div
             key={product.pno}
-            className="p-6 transition-colors cursor-pointer bg-ibm-canvas hover:bg-ibm-surface-1"
+            className="p-5 transition-all cursor-pointer bg-white rounded-2xl border border-ibm-hairline shadow-sm hover:shadow-md hover:-translate-y-0.5"
             onClick={() => moveToRead(product.pno)}
           >
-            <div className="w-full overflow-hidden">
+            <div className="w-full overflow-hidden rounded-xl bg-ibm-surface-4 mb-4">
               <img
                 alt="product"
-                className="m-auto ibm-rounded-md w-60"
+                className="m-auto w-full h-48 object-cover"
                 src={`${host}/api/products/view/s_${product.uploadFileNames[0]}`}
               />
             </div>
-            <div className="mt-6 mb-6 font-light ibm-ct-24 text-ibm-ink ">
+            <div className="font-medium ibm-b-16 text-ibm-ink mb-1">
               {product.pname}
             </div>
-            <div className="pt-4 border-t ibm-bsm-14 text-ibm-ink-muted border-ibm-hairline">
-              {product.price} 円
+            <div className="ibm-bsm-14 text-ibm-blue font-medium">
+              ¥{product.price.toLocaleString()}
             </div>
           </div>
         ))}
@@ -70,8 +71,9 @@ const ListComponent = () => {
       <PageComponent
         serverData={serverData}
         movePage={handleClickPage}
-      ></PageComponent>
+      />
     </div>
   )
 }
+
 export default ListComponent

@@ -13,29 +13,28 @@ const LogoutComponent = () => {
   }
 
   return (
-    <div className="bg-ibm-canvas border border-ibm-hairline shadow-lg w-[400px]">
-      <div className="px-6 py-5 border-b border-ibm-hairline">
-        <h2 className="ibm-be-14 text-ibm-ink">Logout</h2>
-      </div>
-      <div className="px-6 py-6">
-        <p className="ibm-bsm-14 text-ibm-ink">
-          정말 로그아웃 하시겠습니까?
+    <div className="bg-white rounded-3xl shadow-xl border border-ibm-hairline w-[360px] overflow-hidden">
+      <div className="px-8 py-6 text-center">
+        <div className="text-3xl mb-3">🌙</div>
+        <h2 className="ibm-sh-20 text-ibm-ink font-medium">ログアウト</h2>
+        <p className="ibm-bsm-14 text-ibm-ink-muted mt-2">
+          ログアウトしますか？
         </p>
       </div>
       <div className="flex border-t border-ibm-hairline">
         <button
           type="button"
           onClick={handleClickCancel}
-          className="flex-1 h-12 ibm-bsm-14 text-ibm-ink border-r border-ibm-hairline hover:bg-ibm-surface-1"
+          className="flex-1 h-12 ibm-bsm-14 text-ibm-ink-muted hover:bg-ibm-surface-4 transition-colors"
         >
-          아니요
+          キャンセル
         </button>
         <button
           type="button"
           onClick={handleClickConfirm}
-          className="flex-1 h-12 ibm-bsm-14 text-white bg-blue-600 hover:bg-blue-700"
+          className="flex-1 h-12 ibm-bsm-14 text-white bg-ibm-blue hover:bg-ibm-blue-hover transition-colors"
         >
-          예
+          はい
         </button>
       </div>
     </div>

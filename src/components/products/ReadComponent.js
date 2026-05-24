@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import { API_SERVER_HOST } from '../../api/todoApi'
 import useCustomMove from '../../hooks/useCustomMove'
 import FetchingModal from '../common/FetchingModal'
@@ -32,55 +31,55 @@ const ReadComponent = ({ pno }) => {
     let qty = 1
     const addedItem = cartItems.filter((item) => item.pno === parseInt(pno))[0]
     if (addedItem) {
-      if (
-        window.confirm('이미 추가된 상품입니다. 추가하시겠습니까?') === false
-      ) {
+      if (window.confirm('すでにカートに入っています。追加しますか？') === false) {
         return
       }
       qty = addedItem.qty + 1
     }
     changeCart({ email: loginState.email, pno: pno, qty: qty })
   }
+
   const product = data || initState
 
   return (
-    <div className="mt-8 border border-ibm-hairline bg-ibm-canvas">
+    <div className="mt-6 bg-white rounded-2xl border border-ibm-hairline shadow-sm overflow-hidden">
       {isFetching ? <FetchingModal /> : <></>}
-      <div className="flex flex-col items-center justify-center w-full m-auto">
+
+      <div className="flex flex-col items-center justify-center w-full bg-ibm-surface-4 p-6">
         {product.uploadFileNames.map((imgFile, i) => (
           <img
             alt="product"
             key={i}
-            className="w-1/2 p-4"
+            className="w-1/2 rounded-xl"
             src={`${host}/api/products/view/${imgFile}`}
           />
         ))}
       </div>
 
-      {makeRow('Name', product.pname)}
-      {makeRow('Price', product.price)}
+      {makeRow('商品名', product.pname)}
+      {makeRow('価格', product.price ? `¥${product.price.toLocaleString()}` : '')}
 
-      <div className="flex justify-end gap-px p-6 border-t bg-ibm-hairline border-ibm-hairline">
+      <div className="flex flex-wrap justify-end gap-3 p-6 bg-ibm-surface-4 border-t border-ibm-hairline">
         <button
           type="button"
-          className="ibm-btn ibm-btn-secondary min-w-[160px]"
+          className="ibm-btn ibm-btn-primary min-w-[140px]"
           onClick={handleClickAddCart}
         >
-          Add Cart
+          🛒 カートに追加
         </button>
         <button
           type="button"
-          className="ibm-btn ibm-btn-secondary min-w-[160px]"
+          className="ibm-btn ibm-btn-secondary min-w-[120px]"
           onClick={() => moveToList()}
         >
-          List
+          一覧へ
         </button>
         <button
           type="button"
-          className="ibm-btn ibm-btn-primary min-w-[160px]"
+          className="ibm-btn ibm-btn-tertiary min-w-[120px]"
           onClick={() => moveToModify(pno)}
         >
-          Modify
+          編集
         </button>
       </div>
     </div>
@@ -89,10 +88,10 @@ const ReadComponent = ({ pno }) => {
 
 const makeRow = (title, value) => (
   <div className="flex border-b border-ibm-hairline">
-    <div className="w-1/4 px-6 py-5 border-r ibm-e-14 text-ibm-ink-muted bg-ibm-surface-1 border-ibm-hairline">
+    <div className="w-1/4 px-6 py-4 ibm-e-14 text-ibm-ink-muted bg-ibm-surface-4">
       {title}
     </div>
-    <div className="w-3/4 px-6 py-5 ibm-b-16 text-ibm-ink">{value}</div>
+    <div className="w-3/4 px-6 py-4 ibm-b-16 text-ibm-ink">{value}</div>
   </div>
 )
 

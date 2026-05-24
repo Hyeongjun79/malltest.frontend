@@ -1,8 +1,6 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { closeLoginModal, loginPostAsync } from '../../slices/loginSlice'
-import { login } from '../../slices/loginSlice'
 import useCustomLogin from '../../hooks/useCustomLogin'
 import KakaoLoginComponent from './KakaoLoginComponent'
 import GoogleLoginComponent from './GoogleLoginComponent'
@@ -16,23 +14,21 @@ const initState = {
 const LoginComponent = () => {
   const [loginParam, setLoginParam] = useState({ ...initState })
   const dispatch = useDispatch()
-  const { doLogin, moveToPath } = useCustomLogin()
+  const { moveToPath } = useCustomLogin()
 
   const handleChange = (e) => {
     loginParam[e.target.name] = e.target.value
-
     setLoginParam({ ...loginParam })
   }
-  const handleClickLogin = (e) => {
+
+  const handleClickLogin = () => {
     dispatch(loginPostAsync(loginParam))
       .unwrap()
       .then((data) => {
-        console.log('after unwrap.')
-
         if (data.error) {
-          alert('이메일과 패스워드를 확인하시오')
+          alert('メールアドレスまたはパスワードが正しくありません')
         } else {
-          alert('로그인 성공')
+          alert('ログインしました')
           moveToPath('/')
         }
       })
@@ -43,60 +39,63 @@ const LoginComponent = () => {
   }
 
   return (
-    <div className="relative p-4 m-2 mt-10 bg-white border-2 border-sky-200">
+    <div className="relative p-8 m-2 bg-white rounded-3xl shadow-xl border border-ibm-hairline w-full max-w-sm">
       <button
         type="button"
         onClick={handleClose}
-        className="absolute text-2xl font-bold text-gray-500 top-2 right-3 hover:text-gray-800"
-        aria-label="Close"
+        className="absolute top-4 right-5 text-xl text-ibm-ink-subtle hover:text-ibm-ink transition-colors"
+        aria-label="閉じる"
       >
         ×
       </button>
-      <div className="flex justify-center">
-        <div className="p-4 m-4 text-4xl font-extrabold text-blue-500">
-          Login
-        </div>
+
+      <div className="text-center mb-8">
+        <div className="text-4xl mb-2">𓍯</div>
+        <h2 className="ibm-ct-24 text-ibm-ink font-medium">ログイン</h2>
+        <p className="ibm-c-12 text-ibm-ink-muted mt-1">アミゴへようこそ</p>
       </div>
-      <div className="flex justify-center">
-        <div className="relative flex flex-wrap items-stretch w-full mb-4">
-          <div className="w-full p-3 font-bold text-left">Email</div>
+
+      <div className="space-y-4 mb-6">
+        <div>
+          <label className="block ibm-c-12 text-ibm-ink-muted mb-1 tracking-widest uppercase">
+            メールアドレス
+          </label>
           <input
-            className="w-full p-3 border border-solid rounded-r shadow-md border-neutral-500"
+            className="ibm-input"
             name="email"
-            type={'text'}
+            type="text"
             value={loginParam.email}
             onChange={handleChange}
+            placeholder="example@email.com"
+          />
+        </div>
+        <div>
+          <label className="block ibm-c-12 text-ibm-ink-muted mb-1 tracking-widest uppercase">
+            パスワード
+          </label>
+          <input
+            className="ibm-input"
+            name="pw"
+            type="password"
+            value={loginParam.pw}
+            onChange={handleChange}
+            placeholder="••••••••"
           />
         </div>
       </div>
 
-      <div className="flex justify-center">
-        <div className="relative flex flex-wrap items-stretch w-full mb-4">
-          <div className="w-full p-3 font-bold text-left">Password</div>
-          <input
-            className="w-full p-3 border border-solid rounded-r shadow-md border-neutral-500"
-            name="pw"
-            type={'password'}
-            value={loginParam.pw}
-            onChange={handleChange}
-          />
-        </div>
+      <button
+        className="ibm-btn ibm-btn-primary w-full justify-center mb-6"
+        onClick={handleClickLogin}
+      >
+        ログイン
+      </button>
+
+      <div className="flex flex-col gap-2">
+        <KakaoLoginComponent />
+        <GoogleLoginComponent />
+        <NaverLoginComponent />
       </div>
-      <div className="flex justify-center">
-        <div className="relative flex justify-center w-full mb-4">
-          <div className="flex justify-center w-2/5 p-6 font-bold">
-            <button
-              className="p-4 text-xl text-white bg-blue-500 rounded w-36"
-              onClick={handleClickLogin}
-            >
-              Login
-            </button>
-          </div>
-        </div>
-      </div>
-      <KakaoLoginComponent />
-      <GoogleLoginComponent />
-      <NaverLoginComponent />
     </div>
   )
 }
