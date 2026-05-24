@@ -26,8 +26,8 @@ const ModifyComponent = () => {
   }
 
   const handleClickModify = () => {
-    modifyMember(member).then((result) => {
-      setResult('Modified')
+    modifyMember(member).then(() => {
+      setResult('変更完了')
     })
   }
 
@@ -38,20 +38,20 @@ const ModifyComponent = () => {
   }
 
   return (
-    <div className="mt-8 border border-ibm-hairline bg-ibm-canvas">
+    <div className="mt-6 bg-white rounded-2xl border border-ibm-hairline shadow-sm overflow-hidden">
       {result ? (
         <ResultModal
-          title={'회원정보'}
-          content={'정보수정완료'}
+          title={'会員情報'}
+          content={'情報の変更が完了しました'}
           callbackFn={closeModal}
-        ></ResultModal>
+        />
       ) : (
         <></>
       )}
-      <FormRow label="EMAIL">
+      <FormRow label="メール">
         <div className="ibm-b-16 text-ibm-ink-muted">{member.email}</div>
       </FormRow>
-      <FormRow label="PASSWORD">
+      <FormRow label="パスワード">
         <input
           className="ibm-input"
           name="pw"
@@ -60,7 +60,7 @@ const ModifyComponent = () => {
           onChange={handleChange}
         />
       </FormRow>
-      <FormRow label="NICKNAME">
+      <FormRow label="ニックネーム">
         <input
           className="ibm-input"
           name="nickname"
@@ -70,13 +70,13 @@ const ModifyComponent = () => {
         />
       </FormRow>
 
-      <div className="flex justify-end gap-px p-6 border-t bg-ibm-hairline border-ibm-hairline">
+      <div className="flex justify-end gap-3 p-6 bg-ibm-surface-4 border-t border-ibm-hairline">
         <button
           type="button"
-          className="ibm-btn ibm-btn-primary min-w-[160px]"
+          className="ibm-btn ibm-btn-primary min-w-[140px]"
           onClick={handleClickModify}
         >
-          Modify
+          変更する
         </button>
       </div>
     </div>
@@ -85,7 +85,7 @@ const ModifyComponent = () => {
 
 const FormRow = ({ label, children }) => (
   <div className="flex border-b border-ibm-hairline">
-    <div className="w-1/4 px-6 py-5 border-r ibm-e-14 text-ibm-ink-muted bg-ibm-surface-1 border-ibm-hairline">
+    <div className="w-1/4 px-6 py-4 ibm-e-14 text-ibm-ink-muted bg-ibm-surface-4">
       {label}
     </div>
     <div className="w-3/4 px-6 py-4 ibm-b-16 text-ibm-ink">{children}</div>

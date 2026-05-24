@@ -1,8 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import useCustomLogin from '../../hooks/useCustomLogin'
 import useCustomCart from '../../hooks/useCustomCart'
 import { useEffect, useMemo } from 'react'
-import { getCartItemsAsync } from '../../slices/cartSlice'
 import CartItemComponent from '../cart/CartItemComponent'
 
 const CartComponent = () => {
@@ -26,33 +25,44 @@ const CartComponent = () => {
     <div className="w-full">
       {isLogin ? (
         <div className="flex flex-col">
-          <div className="flex w-full">
-            <div className="m-2"> {loginState.nickname}'s Cart</div>
-            <div className="w-5 m-2 font-bold text-center text-white bg-blue-500 ibm-rounded-md">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-sm font-medium text-ibm-ink">
+              🛒 {loginState.nickname} さんのカート
+            </span>
+            <span className="w-5 h-5 flex items-center justify-center text-xs font-bold text-white bg-ibm-blue rounded-full">
               {cartItems.length}
-            </div>
+            </span>
           </div>
 
-          <div>
-            <ul>
-              {cartItems.map((item) => (
-                <CartItemComponent
-                  {...item}
-                  key={item.cino}
-                  changeCart={changeCart}
-                  email={loginState.email}
-                />
-              ))}
-            </ul>
-          </div>
-          <div>
-            <div className="text-2xl font-extrabold text-right">
-              TOTAL: {total}
+          <ul className="space-y-1">
+            {cartItems.map((item) => (
+              <CartItemComponent
+                {...item}
+                key={item.cino}
+                changeCart={changeCart}
+                email={loginState.email}
+              />
+            ))}
+          </ul>
+
+          {cartItems.length > 0 && (
+            <div className="mt-4 pt-4 border-t border-ibm-hairline">
+              <div className="text-right ibm-be-14 text-ibm-ink">
+                合計：<span className="text-ibm-blue ibm-sh-20">¥{total.toLocaleString()}</span>
+              </div>
             </div>
-          </div>
+          )}
+
+          {cartItems.length === 0 && (
+            <p className="ibm-c-12 text-ibm-ink-muted text-center py-6">
+              カートは空です 🧶
+            </p>
+          )}
         </div>
       ) : (
-        <></>
+        <p className="ibm-c-12 text-ibm-ink-muted text-center py-6">
+          ログインするとカートが使えます
+        </p>
       )}
     </div>
   )

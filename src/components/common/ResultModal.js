@@ -1,34 +1,31 @@
 const ResultModal = ({ title, content, callbackFn }) => {
   return (
     <div
-      className="fixed inset-0 z-[1055] flex items-center justify-center bg-black bg-opacity-40"
+      className="fixed inset-0 z-[1055] flex items-center justify-center bg-black/40 backdrop-blur-sm"
       onClick={() => {
-        if (callbackFn) {
-          callbackFn()
-        }
+        if (callbackFn) callbackFn()
       }}
     >
       <div
-        className="relative bg-ibm-canvas border border-ibm-hairline w-full max-w-[640px] mx-4"
+        className="relative bg-white rounded-3xl shadow-xl border border-ibm-hairline w-full max-w-[400px] mx-4 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 pt-6 pb-4 border-b border-ibm-hairline">
-          <div className="mb-2 ibm-e-14 text-ibm-ink-muted">Notification</div>
-          <h2 className="font-light ibm-ct-24 text-ibm-ink">{title}</h2>
+        <div className="px-8 pt-8 pb-4 text-center">
+          <div className="text-3xl mb-3">✨</div>
+          <div className="mb-1 ibm-e-14">お知らせ</div>
+          <h2 className="ibm-sh-20 text-ibm-ink font-medium">{title}</h2>
         </div>
 
-        <div className="px-6 py-8 ibm-ct-24 text-ibm-ink-muted">{content}</div>
+        <div className="px-8 py-4 text-center ibm-bsm-14 text-ibm-ink-muted">{content}</div>
 
-        <div className="flex justify-end border-t border-ibm-hairline">
+        <div className="px-8 pb-8 flex justify-center">
           <button
-            className="ibm-btn ibm-btn-primary min-w-[200px]"
+            className="ibm-btn ibm-btn-primary min-w-[160px]"
             onClick={() => {
-              if (callbackFn) {
-                callbackFn()
-              }
+              if (callbackFn) callbackFn()
             }}
           >
-            Close
+            閉じる
           </button>
         </div>
       </div>

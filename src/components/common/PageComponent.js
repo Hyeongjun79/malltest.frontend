@@ -1,13 +1,13 @@
 const PageComponent = ({ serverData, movePage }) => {
   return (
-    <div className="flex justify-center mt-12 border-t border-ibm-hairline">
+    <div className="flex justify-center items-center gap-1 mt-10">
       {serverData.prev ? (
         <button
           type="button"
-          className="px-4 h-12 ibm-bsm-14 text-ibm-blue hover:bg-ibm-surface-1 border-r border-ibm-hairline"
+          className="px-4 h-9 ibm-bsm-14 text-ibm-blue hover:bg-ibm-surface-1 rounded-full transition-colors border border-ibm-hairline"
           onClick={() => movePage({ page: serverData.prevPage })}
         >
-          Prev
+          ← 前へ
         </button>
       ) : null}
 
@@ -17,10 +17,10 @@ const PageComponent = ({ serverData, movePage }) => {
           <button
             key={pageNum}
             type="button"
-            className={`w-12 h-12 ibm-bsm-14 border-r border-ibm-hairline transition-colors ${
+            className={`w-9 h-9 ibm-bsm-14 rounded-full transition-colors ${
               selected
-                ? 'bg-ibm-ink text-ibm-inverse-ink font-semibold'
-                : 'bg-ibm-canvas text-ibm-ink hover:bg-ibm-surface-1'
+                ? 'bg-ibm-blue text-white font-semibold shadow-sm'
+                : 'text-ibm-ink hover:bg-ibm-surface-1 border border-ibm-hairline'
             }`}
             onClick={() => movePage({ page: pageNum })}
           >
@@ -32,13 +32,14 @@ const PageComponent = ({ serverData, movePage }) => {
       {serverData.next ? (
         <button
           type="button"
-          className="px-4 h-12 ibm-bsm-14 text-ibm-blue hover:bg-ibm-surface-1"
+          className="px-4 h-9 ibm-bsm-14 text-ibm-blue hover:bg-ibm-surface-1 rounded-full transition-colors border border-ibm-hairline"
           onClick={() => movePage({ page: serverData.nextPage })}
         >
-          Next
+          次へ →
         </button>
       ) : null}
     </div>
   )
 }
+
 export default PageComponent

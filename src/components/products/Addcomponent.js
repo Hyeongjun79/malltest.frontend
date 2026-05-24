@@ -73,19 +73,19 @@ const AddComponent = () => {
   }
 
   return (
-    <div className="mt-8 border border-ibm-hairline bg-ibm-canvas">
+    <div className="mt-6 bg-white rounded-2xl border border-ibm-hairline shadow-sm overflow-hidden">
       {addMutation.isPending ? <FetchingModal /> : <></>}
       {addMutation.isSuccess ? (
         <ResultModal
-          title={'Product Add Result'}
-          content={`${addMutation.data.result}번 등록 완료`}
+          title={'商品登録'}
+          content={`No.${addMutation.data.result} を登録しました`}
           callbackFn={closeModal}
         />
       ) : (
         <></>
       )}
 
-      <FormRow label="Product Name">
+      <FormRow label="商品名">
         <input
           className="ibm-input"
           name="pname"
@@ -94,7 +94,7 @@ const AddComponent = () => {
           onChange={handleChangeProduct}
         />
       </FormRow>
-      <FormRow label="Desc">
+      <FormRow label="説明">
         <input
           className="ibm-input"
           name="pdesc"
@@ -103,7 +103,7 @@ const AddComponent = () => {
           onChange={handleChangeProduct}
         />
       </FormRow>
-      <FormRow label="Price">
+      <FormRow label="価格">
         <input
           className="ibm-input"
           name="price"
@@ -128,30 +128,30 @@ const AddComponent = () => {
           ))}
         </select>
       </FormRow>
-      <FormRow label="IMAGE">
+      <FormRow label="画像">
         <div className="flex flex-wrap gap-3">
           {newFiles.map((entry, i) => (
             <div
               key={`new-${i}`}
               className="flex flex-col w-[calc(33.333%-0.5rem)] gap-2"
             >
-              <img alt="new" src={entry.preview} />
+              <img alt="new" src={entry.preview} className="rounded-xl" />
               <button
                 type="button"
-                className="py-2 text-white ibm-bsm-14 bg-ibm-blue hover:bg-ibm-blue-hover"
+                className="ibm-btn ibm-btn-danger py-1 text-sm"
                 onClick={() => removeNewFile(i)}
               >
-                DELETE
+                削除
               </button>
             </div>
           ))}
           <button
             type="button"
             onClick={triggerFileInput}
-            className="flex flex-col items-center justify-center w-[calc(33.333%-0.5rem)] min-h-[140px] border-2 border-dashed text-ibm-ink-muted hover:bg-ibm-surface-1 border-ibm-ink-subtle"
+            className="flex flex-col items-center justify-center w-[calc(33.333%-0.5rem)] min-h-[140px] border-2 border-dashed rounded-xl text-ibm-ink-muted hover:bg-ibm-surface-4 border-ibm-hairline transition-colors"
           >
-            <span className="leading-none ibm-h-32">+</span>
-            <span className="mt-2 ibm-bsm-14">이미지 추가</span>
+            <span className="text-3xl mb-2">+</span>
+            <span className="ibm-bsm-14">画像を追加</span>
           </button>
           <input
             ref={uploadRef}
@@ -164,13 +164,13 @@ const AddComponent = () => {
         </div>
       </FormRow>
 
-      <div className="flex justify-end p-6 border-t border-ibm-hairline">
+      <div className="flex justify-end gap-3 p-6 bg-ibm-surface-4 border-t border-ibm-hairline">
         <button
           type="button"
-          className="ibm-btn ibm-btn-primary min-w-[160px]"
+          className="ibm-btn ibm-btn-primary min-w-[140px]"
           onClick={handleClickAdd}
         >
-          Add
+          登録する
         </button>
       </div>
     </div>
@@ -178,7 +178,7 @@ const AddComponent = () => {
 }
 const FormRow = ({ label, children }) => (
   <div className="flex border-b border-ibm-hairline">
-    <div className="w-1/4 px-6 py-5 border-r ibm-e-14 text-ibm-ink-muted bg-ibm-surface-1 border-ibm-hairline">
+    <div className="w-1/4 px-6 py-4 ibm-e-14 text-ibm-ink-muted bg-ibm-surface-4">
       {label}
     </div>
     <div className="w-3/4 px-6 py-4 ibm-b-16 text-ibm-ink">{children}</div>
